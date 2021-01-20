@@ -49,34 +49,7 @@
                 <!--User Registration + New Comment Notification-->
 
                 <!--Message Notification-->
-                <li class="nav-item dropdown no-caret mr-3 dropdown-notifications">
-                    <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownMessages" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i data-feather="mail"></i>
-                        <span class="badge badge-red">1</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownMessages">
-                        <h6 class="dropdown-header dropdown-notifications-header">
-                            <i class="mr-2" data-feather="mail"></i>
-                            Message Notification
-                        </h6>
-
-                        <a class="dropdown-item dropdown-notifications-item" href="#"
-                            ><img class="dropdown-notifications-item-img" src="./assets/img/mdabarik.jpg" />
-                            <div class="dropdown-notifications-item-content">
-                                <div class="dropdown-notifications-item-content-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing.
-                                </div>
-                                <div class="dropdown-notifications-item-content-details">
-                                    Md. A. Barik &#xB7; 58m
-                                </div>
-                            </div>
-                        </a>
-
-                        <a class="dropdown-item dropdown-notifications-footer" href="messages">
-                            Read All Messages
-                        </a>
-                    </div>
-                </li>
+                     <?php include_once('message.php') ?>
                 <!--Message Notification-->
                 <?php
                     if(isset($_COOKIE['_uid_'])){
