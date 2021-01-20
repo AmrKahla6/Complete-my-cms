@@ -125,11 +125,12 @@
                                                         if(isset($_POST['approve'])){
                                                             $comment_id = $_POST['comment_id'];
 
-                                                            $sql  = "UPDATE comments SET com_status = :status WHERE com_id = :id";
+                                                            $sql  = "UPDATE comments SET com_status = :status, com_state = :state WHERE com_id = :id";
                                                             $stmt = $pdo->prepare($sql);
                                                             $stmt->execute([
                                                                 ':status' => 'approved',
-                                                                ':id'     => $comment_id
+                                                                ':state'  => 1,
+                                                                ':id'     => $comment_id,
                                                             ]);
                                                             header("Location: comments.php");
                                                         }
@@ -150,10 +151,11 @@
                                                         if(isset($_POST['unapprove'])){
                                                         $comment_id = $_POST['comment_id'];
 
-                                                        $sql  = "UPDATE comments SET com_status = :status WHERE com_id = :id";
+                                                        $sql  = "UPDATE comments SET com_status = :status, com_state = :state WHERE com_id = :id";
                                                         $stmt = $pdo->prepare($sql);
                                                         $stmt->execute([
                                                             ':status' => 'unapproved',
+                                                            ':state'  => 0,
                                                             ':id'     => $comment_id
                                                         ]);
                                                         header("Location: comments.php");

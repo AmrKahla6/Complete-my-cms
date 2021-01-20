@@ -3,49 +3,7 @@
             <ul class="navbar-nav align-items-center ml-auto">
 
                 <!--User Registration + New Comment Notification-->
-                <li class="nav-item dropdown no-caret mr-3 dropdown-notifications">
-                    <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownAlerts" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i data-feather="bell"></i>
-                        <span class="badge badge-red">2</span>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownAlerts">
-                        <h6 class="dropdown-header dropdown-notifications-header">
-                            <i class="mr-2" data-feather="bell"></i>
-                            Notification
-                        </h6>
-
-                        <a class="dropdown-item dropdown-notifications-item" href="#!">
-                            <div class="dropdown-notifications-item-icon bg-warning"><i data-feather="activity"></i></div>
-                            <div class="dropdown-notifications-item-content">
-
-                                <div class="dropdown-notifications-item-content-details">
-                                    December 29, 2019
-                                </div>
-                                <div class="dropdown-notifications-item-content-text">
-                                    This is an alert message. It&apos;s nothing serious, but it requires your attention.
-                                </div>
-                            </div>
-                        </a>
-
-                        <a class="dropdown-item dropdown-notifications-item" href="#!">
-                            <div class="dropdown-notifications-item-icon bg-warning"><i data-feather="activity"></i></div>
-                            <div class="dropdown-notifications-item-content">
-
-                                <div class="dropdown-notifications-item-content-details">
-                                    December 29, 2019
-                                </div>
-                                <div class="dropdown-notifications-item-content-text">
-                                    This is an alert message. It&apos;s nothing serious, but it requires your attention.
-                                </div>
-                            </div>
-                        </a>
-
-                        <a class="dropdown-item dropdown-notifications-footer" href="#">
-                            View All Alerts
-                        </a>
-                    </div>
-                </li>
+                    <?php include_once('nav-comment.php') ?>
                 <!--User Registration + New Comment Notification-->
 
                 <!--Message Notification-->
