@@ -19,66 +19,94 @@
                     </header>
                     <section class="bg-white py-10">
                         <div class="container">
-                        <?php 
-                            if(isset($_COOKIE['_uid_']) || isset($_COOKIE['_uiid_']) || isset($_SESSION['login'])){ ?>
-                                <form action="contact.php" method="post">
-                                <?php
-                                    if(isset($_COOKIE['_uid_'])){
-                                        $userid = base64_decode($_COOKIE['_uid_']);
-                                    }else if(isset($_SESSION['user_id'])){
-                                        $userid = $_SESSION['user_id'];
-                                    } else {
-                                        $userid = -1;
-                                    }
 
-                                    $sql  = "SELECT user_name, user_email, user_photo FROM users WHERE user_id = :id";
-                                    $stmt = $pdo->prepare($sql);
-                                    $stmt->execute([
-                                        ':id' => $userid,
-                                    ]);
+                            <?php 
+                                if(isset($_COOKIE['_uid_']) || isset($_COOKIE['_uiid_']) || isset($_SESSION['login'])) { ?>
+                                    <form action="contact.php" method="POST">
+                                        <?php 
+                                            if(isset($_COOKIE['_uid_'])) {
+                                                $user_id = base64_decode($_COOKIE['_uid_']);
+                                            } else if(isset($_SESSION['user_id'])) {
+                                                $user_id = $_SESSION['user_id'];
+                                            } else {
+                                                $user_id = -1;
+                                            }
+                                            $sql  = "SELECT * FROM users WHERE user_id = :id";
+                                            $stmt = $pdo->prepare($sql);
+                                            $stmt->execute([
+                                                ':id' => $user_id
+                                            ]);
+                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                            $user_name  = $user['user_name'];
+                                            $user_email = $user['user_email'];
 
-                                    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                                    $username  = $user['user_name'];
-                                    $useremail = $user['user_email'];
-                                ?>
-                                <?php 
-                                    if(isset($_POST['send'])){
-                                        $message = trim($_POST['message']);
-                                        $sql     = "INSERT INTO messages SET ms_username = :username, ms_useremail = :useremail, ms_detail = :detail, ms_date = :date";
-                                        $stmt    = $pdo->prepare($sql);
-                                        $stmt->execute([
-                                            ':username'  => $username,
-                                            ':useremail' => $useremail,
-                                            ':detail'    => $message,
-                                            ':date'      => date("M n, Y") . ' at ' . date("h:i A"),
-                                        ]);
-                                        echo "<div class='alert alert-success'>Message sent successfuly</div>";
-                                    }
-                                ?>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label class="text-dark" for="inputName">Full name</label>
-                                            <input value="<?php echo $username ?>" readonly="true" class="form-control py-4" id="inputName" type="text" placeholder="Full name" />
+                                            if(isset($_POST['send'])) {
+                                                $message = trim($_POST['message']);
+                                                $sql = "INSERT INTO messages SET ms_username = :username, ms_useremail = :email, ms_detail = :detail, ms_date = :date";
+                                                $stmt = $pdo->prepare($sql);
+                                                $stmt->execute([
+                                                    ':username' => $user_name,
+                                                    ':email'    => $user_email,
+                                                    ':detail'   => $message,
+                                                    ':date'     => date("M n, Y") . ' at ' . date("h:i A")
+                                                ]);
+                                                echo "<div class='alert alert-success'>Message has been send successfully!</div>";
+                                                header("Refresh:2;url=contact.php");
+                                            }
+                                        ?>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="text-dark" for="inputName">Full name</label>
+                                                <input value="<?php echo $user_name; ?>" readonly="true" class="form-control py-4" id="inputName" type="text" placeholder="Full name" />
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="text-dark" for="inputEmail">Email</label>
+                                                <input value="<?php echo $user_email; ?>" readonly="true" class="form-control py-4" id="inputEmail" type="email" placeholder="name@example.com" />
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="text-dark" for="inputEmail">Email</label>
-                                            <input value="<?php echo $useremail ?>" readonly="true" class="form-control py-4" id="inputEmail" type="email" placeholder="name@example.com" />
+                                        <div class="form-group">
+                                            <label class="text-dark" for="inputMessage">Message</label>
+                                            <textarea name="message" class="form-control py-3" id="inputMessage" type="text" placeholder="Enter your message..." rows="4"></textarea>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="text-dark" for="inputMessage">Message</label>
-                                        <textarea name="message" class="form-control py-3" id="inputMessage" type="text" placeholder="Enter your message..." rows="4"></textarea>
-                                    </div>
-                                    <div class="text-center">
-                                        <button name="send" class="btn btn-primary btn-marketing mt-4" type="submit">Submit Request</button>
-                                    </div>
-                                </form>
-                            <?php } else { ?>
-                                        <a href="./backend/signin.php">Sing in to contact us</a>
-                           <?php }
-                        ?>
-                         
+                                        <div class="text-center">
+                                            <button name="send" class="btn btn-primary btn-marketing mt-4" type="submit">Submit Request</button>
+                                        </div>
+                                    </form>
+
+
+
+                                    <table class="table table-bordered table-hover mt-5" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Your messages:</th>
+                                                <th>Answers:</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php 
+                                                $sql1 = "SELECT * FROM messages WHERE ms_useremail = :email";
+                                                $stmt1 = $pdo->prepare($sql1);
+                                                $stmt1->execute([
+                                                    ':email' => $user_email
+                                                ]);
+                                                while($ms = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+                                                    $ms_detail = $ms['ms_detail'];
+                                                    $reply     = $ms['ms_reply']; ?>
+                                                    <tr>
+                                                      <td><?php echo $ms_detail; ?></td>
+                                                      <td><?php echo $reply; ?></td>
+                                                  </tr>
+                                                <?php }                                                  
+                                            ?>
+                                        </tbody>
+                                    </table>
+
+
+                               <?php } else { ?>
+                                    <a href="./backend/sign-in.php">Sign in to contact us!</a>
+                               <?php }
+                            ?>
+                            
 
                         </div>
 

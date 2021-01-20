@@ -69,10 +69,17 @@
                 Comments
             </a>
 
-            <a class="nav-link" href="messages.php" ><div class="nav-link-icon"><i data-feather="mail"></i></div>
-                Messages
-            </a>
-
+            <?php
+                if($curr_page == "messages.php" || $curr_page == "reply.php"){ ?>
+                    <a class="nav-link active" href="messages.php" ><div class="nav-link-icon"><i data-feather="mail"></i></div>
+                         Messages
+                    </a>
+                <?php } else { ?>
+                    <a class="nav-link" href="messages.php" ><div class="nav-link-icon"><i data-feather="mail"></i></div>
+                         Messages
+                    </a>
+               <?php }
+            ?>
             <a class="nav-link" href="profile.php" ><div class="nav-link-icon"><i data-feather="user"></i></div>
                 Profile
             </a>

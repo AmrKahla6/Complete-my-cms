@@ -13,7 +13,13 @@
 <li class="nav-item dropdown no-caret mr-3 dropdown-notifications">
     <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownMessages" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i data-feather="mail"></i>
-        <span class="badge badge-red"><?php echo $count ?></span>
+
+        <?php 
+            if($count != 0){ ?>
+                    <span class="badge badge-red"><?php echo $count ?></span>
+            <?php }
+        ?>
+       
     </a>
     <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownMessages">
         <h6 class="dropdown-header dropdown-notifications-header">

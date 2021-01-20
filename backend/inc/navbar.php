@@ -49,7 +49,7 @@
                 <!--User Registration + New Comment Notification-->
 
                 <!--Message Notification-->
-                     <?php include_once('message.php') ?>
+                     <?php include_once('nav-message.php') ?>
                 <!--Message Notification-->
                 <?php
                     if(isset($_COOKIE['_uid_'])){
